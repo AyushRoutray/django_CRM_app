@@ -1,0 +1,48 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CRM - Delete Order{% endblock %}</title>
+    <style>
+        body {
+            background-color: rgb(233, 254, 255);
+        }
+        #No {
+            text-decoration: none;
+            color: white;
+        }
+        input {
+            border: solid black 2px;
+        }
+        #delete {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+        }
+        input, button {
+            background-color: rgb(49, 49, 49);
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="delete">
+    <h3 id="head">Are you sure you want to delete {{item}}?</h3>
+    <div>
+    <form action="{% url 'deleteorder' item.id %}" method="POST" id="center">
+        {% csrf_token %}
+        <input type="submit" name="Confirm" value="Yes">
+        <button><a href="{% url 'dashboard' %}" id="No">No</a></button>
+    </form>
+</div>
+</div>
+</body>
+</html>
+{% endblock %}

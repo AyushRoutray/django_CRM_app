@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      #imagelogo {
+        width: 75px;
+      }
+      body {
+        overflow: hidden;
+      }
+      .navbar {
+        height: 75px;
+        background-color: rgb(49, 49, 49);
+        border-bottom: solid coral 2px;
+      }
+      #home{
+        color: rgb(255, 255, 255);
+        border-left: solid coral 2px;
+      }
+      #home:hover{
+        font-size: large;
+      }
+      #products {
+        color: white;
+        border-left: solid coral 2px;
+      }
+      #products:hover {
+        font-size: large;
+      }
+      #login {
+        color: white;
+        text-decoration: none;
+        border-left: solid coral 2px;
+        margin-left: 1150px;
+      }
+      #register {
+        color: white;
+        text-decoration: none;
+        border-left: solid coral 2px;
+      }
+      #logout {
+        color: white;
+        text-decoration: none;
+        border-left: solid coral 2px;
+      }
+      #logout:hover {
+        font-size: large;
+      }
+      #login:hover {
+        font-size: large;
+      }
+      #register:hover {
+        font-size: large;
+      }
+      #welcomemessage {
+        color: white;
+        text-decoration: none;
+        border-left: solid coral 2px;
+        margin-left: 1150px;
+      }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#"><img id="imagelogo" src="{% static '/images/logo.png' %}"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="{% url 'dashboard' %}" id="home">Dashboard<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" id="products" href="{% url 'products' %}">Products</a></a>
+            {% if user.is_authenticated %}
+            <a class="nav-item nav-link" id="welcomemessage">Hello, {{request.user}}</a>
+            <a class="nav-item nav-link" href="{% url 'logout' %}" id="logout">Logout</a>
+            {% else %}
+            <a class="nav-item nav-link" href="{% url 'login' %}" id="login">Login</a>
+            <a class="nav-item nav-link" href="{% url 'register' %}" id="register">Register</a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+</body>
+</html>

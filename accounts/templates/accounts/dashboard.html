@@ -1,0 +1,155 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CRM - Dashboard{% endblock %}</title>
+    <style>
+        body {
+            background-color: rgb(233, 254, 255);
+            overflow-y: scroll;
+        }
+		#update {
+			background-color: rgb(49, 49, 49);
+			border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            border: solid coral 2px;
+		}
+        #update:hover {
+            font-size: large;
+        }
+		#remove {
+			background-color: rgb(49, 49, 49);
+			border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            border: solid coral 2px;
+		}
+        #remove:hover {
+            font-size: large;
+        }
+        #remove :hover {
+            color: red;
+        }
+        .col-md-7 {
+            border-left: solid coral 2px;
+        }
+        .lo {
+            border-color: rgb(156, 155, 155);
+            border-style: solid;
+            border-width: 2px;
+            border-radius: 5px;
+            background-color: rgb(49, 49, 49);
+            color: white;
+        }
+        #cust {
+            margin-left: 20px;
+        }
+        #white1 {
+            color: white;
+            text-decoration: none;
+        }
+        #white2 {
+            color: white;
+            text-decoration: none;
+        }
+        #name {
+            color: black;
+            text-decoration: none;
+        }
+        #cc {
+            background-color: rgb(49, 49, 49);
+        }
+        #co {
+            background-color: rgb(49, 49, 49);
+            margin-top: -4px;
+            border: solid coral 2px;
+            border-radius: 5px;
+        }
+        #co:hover {
+            font-size: large;
+        }
+        hr {
+            border-top: solid coral 2px;
+        }
+        #update {
+            color:white;
+            text-decoration: none;
+        }
+        #button1 {
+            background-color: rgb(49, 49, 49);
+            border: solid coral 2px;
+            border-radius: 5px;
+        }
+        #button1:hover{
+            font-size: large;
+        }
+        #update1 {
+            color:white;
+            text-decoration: none;
+        }
+	</style>
+</head>
+<body>
+    {% include 'accounts/status.html'%}
+    <br>
+
+    <div class="row">
+        <div class="col-md-5">
+            <h5 class="lo" id="cust"><b>Customers</b></h5>
+            <hr>
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Update Customer</th>
+                    </tr>
+                    {% for j in customers %}
+                    <tr>
+                        <td><a href="{% url 'customers' j.id %}" id="name">{{j.name}}</a></td>
+                        <td>{{ j.phone }}</td>
+                        <td><button id="button1"><a href="{% url 'customers' j.id %}" id="update1">Update {{ j.name }}</a></button></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    
+        <div class="col-md-7">
+            <h5 class="lo"><b>Orders</b></h5>
+            <hr>
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th>Product</th>
+                        <th>Date Ordered</th>
+                        <th>Status</th>
+                        <th>Update</th>
+                        <th>Remove</th>
+                    </tr>
+                    {% for k in orders %}
+                    <tr>
+                        <td>{{ k.product }}</td>
+                        <td>{{ k.date_created }}</td>
+                        <td>{{ k.status }}</td>
+                        <td><button id="update"><a href="{% url 'updateorder' k.id %}" id="white1">Update</a></button></td>
+                        <td><button id="remove"><a href="{% url 'deleteorder' k.id %}" id="white2">Remove</a></button></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <a class="btn btn-primary  btn-sm btn-block" href="{% url 'createorder' %}" id="co">Create Order</a>
+            </div>
+        </div>
+    
+    </div>
+</body>
+</html>
+
+{% endblock %}

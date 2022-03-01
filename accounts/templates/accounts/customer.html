@@ -1,0 +1,147 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CRM - {{customer.name}}{% endblock %}</title>
+	<style>
+		body {
+			overflow-y: scroll;
+		}
+		#update {
+			background-color: rgb(49, 49, 49);
+			border-radius: 5px;
+			color: white;
+			border: solid coral 2px;
+		}
+		#update:hover {
+            font-size: large;
+        }
+		#remove {
+			background-color: rgb(49, 49, 49);
+			border-radius: 5px;
+			color: white;
+			border: solid coral 2px;
+		}
+		#remove :hover {
+			font-size: large;
+			color: red;
+		}
+		#trt1 {
+			color: white;
+			text-decoration: none;
+		}
+		#trt2 {
+			color: white;
+			text-decoration: none;
+		}
+		#card1 {
+			background-color: rgb(49, 49, 49);
+			color: white;
+		}
+		#card2 {
+			background-color: rgb(49, 49, 49);
+			color: white;
+		}
+		#card3 {
+			background-color: rgb(49, 49, 49);
+			color: white;
+		}
+		hr {
+			border-top: solid coral 2px;
+		}
+		#ucx {
+			color: white;
+			background-color: rgb(49, 49, 49);
+			border-radius: 5px;
+			border: solid coral 2px;
+		}
+		#dcx {
+			background-color: rgb(49, 49, 49);
+			color: white;
+			border-radius: 5px;
+			border: solid coral 2px;
+		}
+		#uc {
+			color: white;
+			text-decoration: none;
+		}
+		#uc:hover {
+			font-size: large;
+		}
+		#dc {
+			color: white;
+			text-decoration: none;
+		}
+		#dc:hover {
+			color: red;
+			font-size: large;
+		}
+	</style>
+</head>
+<body>
+    <br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body" id="card1">
+			<h5>Customer</h5>
+			<hr>
+			<button id="ucx"><a href="{% url 'updatecustomer' 1 %}" id="uc">Update Customer</a></button>
+			<button id="dcx"><a href="{% url 'deletecustomer' 1 %}" id="dc">Delete Customer</a></button>
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body" id="card2">
+			<h5>Contact Information</h5>
+			<hr>
+			<p>Name: {{customer.name}}</p>
+			<p>Email: {{customer.email}} </p>
+			<p>Phone: {{customer.phone}}</p>
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body" id="card3">
+			<h5>Total Orders</h5>
+			<hr>
+			<p>{{ orders_count }}</p>
+			<h1 style="text-align: center;padding: 10px"></h1>
+		</div>
+	</div>
+</div>
+<hr>
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<table class="table table-sm">
+				<tr>
+					<th>Product</th>
+					<th>Category</th>
+					<th>Date Ordered</th>
+					<th>Status</th>
+					<th>Update</th>
+					<th>Remove</th>
+				</tr>
+				{% for l in order %}
+				<tr>
+					<td>{{ l.product }}</td>
+					<td>{{l.product.category}}</td>
+					<td>{{l.date_created}}</td>
+					<td>{{l.status}}</td>
+					<td><button id="update"><a href="{% url 'updateorder' l.id %}" id="trt1">Update</a></button></td>
+					<td><button id="remove"><a href= "{% url 'deleteorder' l.id %}" id="trt2">Remove</a></button></td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CRM - Update{% endblock %}</title>
+    <style>
+        #submit {
+            background-color: rgb(49, 49, 49);
+            border-radius: 5px;
+            color: white;
+            margin-left: 140px;
+            margin-top: 20px;
+        }
+        select {
+            border-radius: 5px;
+            border: solid coral 2px;
+        }
+        #uc {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px;
+        }
+        label {
+            display: inline-block;
+            width: 140px;
+            text-align: left;
+            font-weight: bold;
+            border-right: solid coral 2px;
+        }
+        input {
+            border-radius: 5px;
+            color: black;
+            border: solid coral 2px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="uc">
+    <form method="POST" action="{% url 'updatecustomer' item.id %}">
+        {% csrf_token %}
+        <label for="newname">Name</label>
+        <input type="text" placeholder="Enter New Name" id="newname" name="newname" size="26" required>
+        <br>
+        <label for="newemail">Email</label>
+        <input type="email" placeholder="Enter New Email" id="newemail" name="newemail" size="26" required>
+        <br>
+        <label for="Phoneno">PhoneNo.</label>
+        <select><option>+91</option></select>
+        <input type="tel" placeholder="Enter New Phone Number" minlenght="10" maxlength="10" id="Phoneno" name="newphoneno" size="18" required>
+        <br>
+        <input type="submit" id="submit">
+    </form>
+</div>
+</body>
+</html>
+
+{% endblock %}

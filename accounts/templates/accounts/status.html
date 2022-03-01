@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<style>
+	.card-header {
+		background-color: rgb(49, 49, 49);
+	}
+	#card1 {
+		background-color: rgb(49, 49, 49);
+	}
+	#card2 {
+		background-color: rgb(49, 49, 49);
+	}
+	#card3 {
+		background-color: rgb(49, 49, 49);
+	}
+	hr {
+		border-top: solid coral 2px;
+	}
+</style>
+</head>
+<body>
+    <br>
+
+<div class="row">
+	<div class="col">
+		<div class="col-md">
+			<div class="card text-center text-white  mb-3" id="total-orders">
+			  	<div class="card-header">
+			  		<h5 class="card-title">Total Orders</h5>
+					  <hr>
+			  	</div>
+			  	<div class="card-body" id="card1">
+			    	<h3 class="card-title">{{total_orders}}</h3>
+			  	</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col">
+		<div class="col-md">
+			<div class="card text-center text-white  mb-3" id="orders-delivered">
+			  	<div class="card-header">
+			  		<h5 class="card-title">Orders Delivered</h5>
+					  <hr>
+			  	</div>
+			  	<div class="card-body" id="card2">
+			    	<h3 class="card-title">{{delivered}}</h3>
+			  	</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col">
+		<div class="col-md">
+			<div class="card text-center text-white  mb-3" id="orders-pending">
+			  	<div class="card-header">
+			  		<h5 class="card-title">Orders Pending</h5>
+					  <hr>
+			  	</div>
+			  	<div class="card-body" id="card3">
+			    	<h3 class="card-title">{{ pending }}</h3>
+			  	</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

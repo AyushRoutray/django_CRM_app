@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .footer {
+            background-color: rgb(49, 49, 49);
+            height: 130px;
+            width: 100%;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            border-top: solid coral 2px;
+            display: flex;
+        }
+        .About {
+            padding-left: 10px;
+            text-decoration: none;
+            color: white;
+            font-size: larger;
+            border-right: solid coral 2px;
+        }
+        .About1 {
+            padding-left: 20px;
+            text-decoration: none;
+            color: white;
+            font-size: medium;
+        }
+        .Contact {
+            padding-left: 10px; 
+            text-decoration: none;
+            color: white;
+            font-size: larger;
+            justify-content: flex-end;
+            border-right: solid coral 2px;
+        }
+        .Contact1 {
+            padding-left: 20px; 
+            text-decoration: none;
+            color: white;
+            font-size: medium;
+        }
+        #open {
+            text-decoration: none;
+            color: white;
+        }
+        #open:hover {
+            font-size: large;
+        }
+    </style>
+</head>
+<body>
+    <table class="footer">
+        <tr>
+        <th class="About">About</th>
+        <th class="Contact" id="contact">Contact Us</th>
+        </tr>
+        <tr>
+            <td class="About1">Investors</td>
+            <td class="Contact1">Email</td>
+        </tr>
+        <tr>
+            <td class="About1"><a href="{% url 'termsofservices' %}" id="open">Terms of Services</a></td>
+            <td class="Contact1">Phone Number</td>
+        </tr>
+        <tr>
+            <td class="About1">Blog</td>
+            <td class="Contact1">Sponsorships</td>
+        </tr>
+    </table>
+    </body>
+</html>

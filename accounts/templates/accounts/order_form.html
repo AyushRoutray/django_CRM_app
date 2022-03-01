@@ -1,0 +1,45 @@
+{% extends 'accounts/main.html' %}
+
+<!-- {% load static %} -->
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CRM - Create/Update Order{% endblock %}</title>
+    <style>
+        body {
+        background-color: rgb(233, 254, 255);
+        }
+        #submit {
+            background-color: rgb(49, 49, 49);
+            color: white;
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+        #cancel {
+            color: white;
+        }
+        button {
+            background-color: rgb(49, 49, 49); 
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <input type="submit" id="submit" value="Confirm">
+        <br>
+        <button><a href="" id="cancel">Cancel</a></button>
+    </form>
+</body>
+</html>
+{% endblock %}
