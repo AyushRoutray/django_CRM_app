@@ -1,0 +1,164 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+	body {
+		background-color: #1d2634;
+	}
+
+	input{
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		box-sizing: border-box;
+	}
+
+	input::placeholder {
+	  color: #d3d3d3;
+	}
+
+	.submit{
+		background-color: #6BA3E8;
+	}
+
+	.center-column{
+		width:600px;
+		margin: 20px auto;
+		padding:20px;
+		background-color: #fff;
+		border-radius: 3px;
+		box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.75);
+	}
+
+	.item-row{
+		background-color: #906abd;
+		margin: 10px;
+		padding: 20px;
+		border-radius: 3px;
+		color: #fff;
+		font-size: 16px;
+		box-shadow: 0px -1px 10px -4px rgba(0,0,0,0.75);
+	}
+
+	.btn-danger{
+		background-color: #ffae19;
+		border-color: #e59400;
+		text-decoration: none;
+	}
+	.btn-info {
+		text-decoration: none;
+	}
+    </style>
+</head>
+<body>
+     <div class="grid-container">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+        </div>
+		{% if user.is_authenticated %}
+		<div class="header-right">
+          <span class="material-icons-outlined">login</span> Hello, {{request.user}}
+          <span class="material-icons-outlined">app_registration</span> Logout
+        </div>
+		{% else %}
+        <div class="header-right">
+          <a href="{% url 'login' %}"><span class="material-icons-outlined">login</span> Login</a>
+          <a href="{% url 'register' %}"><span class="material-icons-outlined">app_registration</span> Sign Up</a>
+          <a href="{% url 'guest' %}"><span class="material-icons-outlined">transcribe</span> Guest</a>
+        </div>
+		{% endif %}
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+     <aside id="sidebar">
+        <div class="sidebar-title">
+          <div class="sidebar-brand">
+            <img src="{% static 'images/logocrm1.png' %}"> Pikocrm
+          </div>
+        </div>
+        <ul class="sidebar-list">
+          <li class="sidebar-list-item">
+            <a href="{% url 'dashboard' %}">
+              <span class="material-icons-outlined">dashboard_customize</span> Dashboard
+            </a>
+          </li>
+		  <h3>GENERAL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'products' %}">
+              <span class="material-icons-outlined">inventory_2</span> Inventory
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'customert' %}">
+              <span class="material-icons-outlined">people</span> Customers
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'pikosheets' %}">
+              <span class="material-icons-outlined">table_rows</span> Pikosheets
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'todo' %}">
+              <span class="material-icons-outlined">list_alt</span> Todo Lists
+            </a>
+          </li>
+		  <h3>RETAIL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'barcode' %}">
+              <span class="material-icons-outlined">qr_code</span> Barcode
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'invoice' %}">
+              <span class="material-icons-outlined">category</span> Invoicing
+            </a>
+          </li>
+          <h3>ONLINE</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'orderstatus' %}">
+              <span class="material-icons-outlined">inventory_2</span> Order Status
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'support' %}">
+              <span class="material-icons-outlined">support_agent</span> Support
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <!-- End Sidebar -->
+
+      <!-- Main -->
+      <main class="main-container">
+        <div class="main-title">
+        </div>	
+		<form method="POST" action="">
+		<h2>UPDATE {{item.title}}</h2>
+		{% csrf_token %}
+		{{form1.title}}
+		{{form1.complete}}
+		<input type="submit" name="form1_submit">
+		</form>
+		<h2>DELETE {{item.title}}</h2>
+		<form method="POST" action="">
+		{% csrf_token %}
+		<input type="submit" name="Confirm">
+		<a href="{% url 'todo' %}" >Cancel</a>
+		</form>
+    </body>
+</html>
+{% endblock content %}

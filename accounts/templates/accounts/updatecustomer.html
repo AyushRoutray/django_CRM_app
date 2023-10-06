@@ -1,0 +1,173 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CRM - Update{% endblock %}</title>
+    <style>
+		form {
+            border: 1px solid #fff;
+            background-color: #f0f0f0;
+            width: 300px; /* Adjust the width as needed */
+            padding: 20px;
+            font-weight: bold;
+			position: absolute;
+			left: 60%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+        }
+
+        /* Style for form input fields */
+        input[type="text"], 
+		input[type="email"],
+        input[type="tel"] { 
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }]
+		
+
+        /* Style for the submit button */
+        input[type="submit"] {
+            background-color: #666;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Style for the submit button on hover */
+        input[type="submit"]:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+  
+    </style>
+</head>
+<body>
+     <div class="grid-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+        </div>
+		{% if user.is_authenticated %}
+		<div class="header-right">
+          <span class="material-icons-outlined">login</span> Hello, {{request.user}}
+          <span class="material-icons-outlined">app_registration</span> Logout
+        </div>
+		{% else %}
+        <div class="header-right">
+          <a href="{% url 'login' %}"><span class="material-icons-outlined">login</span> Login</a>
+          <a href="{% url 'register' %}"><span class="material-icons-outlined">app_registration</span> Sign Up</a>
+          <a href="{% url 'guest' %}"><span class="material-icons-outlined">transcribe</span> Guest</a>
+        </div>
+		{% endif %}
+      </header>
+      <!-- End Header -->
+      <!-- Sidebar -->
+     <aside id="sidebar">
+        <div class="sidebar-title">
+          <div class="sidebar-brand">
+            <img src="{% static 'images/logocrm1.png' %}"> Pikocrm
+          </div>
+        </div>
+        <ul class="sidebar-list">
+          <li class="sidebar-list-item">
+            <a href="{% url 'dashboard' %}">
+              <span class="material-icons-outlined">dashboard_customize</span> Dashboard
+            </a>
+          </li>
+		  <h3>GENERAL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'products' %}">
+              <span class="material-icons-outlined">inventory_2</span> Inventory
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'customert' %}">
+              <span class="material-icons-outlined">people</span> Customers
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'pikosheets' %}">
+              <span class="material-icons-outlined">table_rows</span> Pikosheets
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'todo' %}">
+              <span class="material-icons-outlined">list_alt</span> Todo Lists
+            </a>
+          </li>
+		  <h3>RETAIL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'barcode' %}">
+              <span class="material-icons-outlined">qr_code</span> Barcode
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'invoice' %}">
+              <span class="material-icons-outlined">category</span> Invoicing
+            </a>
+          </li>
+          <h3>ONLINE</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'orderstatus' %}">
+              <span class="material-icons-outlined">inventory_2</span> Order Status
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'support' %}">
+              <span class="material-icons-outlined">support_agent</span> Support
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <!-- End Sidebar -->
+      <!-- Main -->
+      <main class="main-container">
+        <div class="main-title">
+          <h2>UPDATE CUSTOMER</h2>
+        </div>
+		<form method="POST" action="{% url 'updatecustomer' item.id %}">
+        {% csrf_token %}
+        <label for="newname">Name</label>
+        <input type="text" placeholder="Enter New Name" id="newname" name="newname" size="26" required>
+        <br>
+        <label for="newemail">Email</label>
+        <input type="email" placeholder="Enter New Email" id="newemail" name="newemail" size="26" required>
+        <br>
+        <label for="Phoneno">PhoneNo.</label>
+        <input type="tel" placeholder="Enter New Phone Number" minlenght="10" maxlength="10" id="Phoneno" name="newphoneno" size="18" required>
+        <br>
+        <input type="submit" id="submit">
+    </form>
+	<a href="{% url 'customers' item.pk %}"><button>Cancel</button></a>
+		</div>
+    </body>
+</div>
+</body>
+</html>
+
+{% endblock %}

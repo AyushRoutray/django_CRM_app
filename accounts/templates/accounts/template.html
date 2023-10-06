@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .invoice {
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice">
+        <h2>Invoice</h2>
+        <p>Customer Name: {{ customer_name }}</p>
+        <p>City: {{ cityo }}</p>
+        
+        {% if selected_products %}
+        <p>Product Name(s):</p>
+        <ul>
+            {% for product in selected_products %}
+            <li>{{ product }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
+        <!-- Add more invoice details here as needed -->
+    </div>
+</body>
+</html>

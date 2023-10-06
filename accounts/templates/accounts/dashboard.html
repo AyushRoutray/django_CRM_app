@@ -1,0 +1,267 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{% block title %}CRM - Dashboard{% endblock %}</title>
+<style>
+#topc {
+	background-color: #1d2634 !important;
+}
+#table1 {
+	border-collapse: collapse; /* Collapse table borders */
+	width: 100%; /* Set table width to 100% */
+	}
+
+	#table1 th,
+	#table1 td {
+	padding: 8px; /* Add padding to th and td elements for column spacing */
+	border: 1px solid #fff; /* Add a white border around th and td elements */
+	text-align: left; /* Align text to the left within th and td elements */
+	}
+
+	#table1 th {
+	background-color: #f0f0f0; /* Add a light gray background color to th elements */
+	font-weight: bold; /* Make the text in th elements bold */
+	color: black;
+	}
+
+/* Add border to the table itself */
+	#table1 {
+	border: 1px solid #fff; /* Add a white border around the table */
+	}
+	.edit {
+		text-decoration: none;
+		color: black;
+	}
+</style>
+</head>
+<body>
+   <div class="grid-container">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+        </div>
+		{% if user.is_authenticated %}
+		<div class="header-right">
+          <span class="material-icons-outlined">login</span> Hello, {{request.user}}
+          <a href="{% url 'logout' %}"><span class="material-icons-outlined">app_registration</span> Logout</a>
+        </div>
+		{% else %}
+        <div class="header-right">
+          <a href="{% url 'login' %}"><span class="material-icons-outlined">login</span> Login</a>
+          <a href="{% url 'register' %}"><span class="material-icons-outlined">app_registration</span> Sign Up</a>
+          <a href="{% url 'guest' %}"><span class="material-icons-outlined">transcribe</span> Guest</a>
+        </div>
+		{% endif %}
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <div class="sidebar-title">
+          <div class="sidebar-brand">
+            <img src="{% static 'images/logocrm1.png' %}"> Pikocrm
+          </div>
+        </div>
+        <ul class="sidebar-list">
+          <li class="sidebar-list-item">
+            <a href="{% url 'dashboard' %}">
+              <span class="material-icons-outlined">dashboard_customize</span> Dashboard
+            </a>
+          </li>
+		  <h3>GENERAL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'products' %}">
+              <span class="material-icons-outlined">inventory_2</span> Inventory
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'customert' %}">
+              <span class="material-icons-outlined">people</span> Customers
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'pikosheets' %}">
+              <span class="material-icons-outlined">table_rows</span> Pikosheets
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'todo' %}">
+              <span class="material-icons-outlined">list_alt</span> Todo Lists
+            </a>
+          </li>
+		  <h3>RETAIL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'barcode' %}">
+              <span class="material-icons-outlined">qr_code</span> Barcode
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'invoice' %}">
+              <span class="material-icons-outlined">category</span> Invoicing
+            </a>
+          </li>
+          <h3>ONLINE</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'orderstatus' %}">
+              <span class="material-icons-outlined">inventory_2</span> Order Status
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'support' %}">
+              <span class="material-icons-outlined">support_agent</span> Support
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <!-- End Sidebar -->
+
+      <!-- Main -->
+      <main class="main-container">
+        <div class="main-title">
+          <h2>DASHBOARD</h2>
+        </div>
+
+        <div class="main-cards">
+
+          <div class="card">
+            <div class="card-inner">
+              <h3>Total Orders</h3>
+              <span class="material-icons-outlined">inventory_2</span>
+            </div>
+            <h1>{{total_orders}}</h1>
+          </div>
+
+          <div class="card">
+            <div class="card-inner">
+              <h3>Out for Delivery</h3>
+              <span class="material-icons-outlined">category</span>
+            </div>
+            <h1>{{out_for_delivery}}</h1>
+          </div>
+
+          <div class="card">
+            <div class="card-inner">
+              <h3>Delivered</h3>
+              <span class="material-icons-outlined">groups</span>
+            </div>
+            <h1>{{delivered}}</h1>
+          </div>
+
+          <div class="card">
+            <div class="card-inner">
+              <h3>Pending</h3>
+              <span class="material-icons-outlined">notification_important</span>
+            </div>
+            <h1>{{pending}}</h1>
+          </div>
+
+        </div>
+
+        <div class="charts">
+
+          <div class="charts-card">
+            <h2 class="chart-title">Top Categories</h2>
+            <div id="topc">{{div1| safe}}</div>
+          </div>
+
+          <div class="charts-card">
+            <h2 class="chart-title">Maps</h2>
+            <div>{{div2| safe}}</div>
+          </div>
+
+        </div>
+		<div class="charts">
+
+          <div class="charts-card">
+            <h2 class="chart-title">Retail and Online Sales</h2>
+            <div>{{div| safe}}</div>
+          </div>
+
+          <div class="charts-card">
+            <h2 class="chart-title">Prices</h2>
+            <div>{{div3| safe}}</div>
+          </div>
+
+        </div>
+		<div class="charts">
+
+          <div class="charts-card">
+            <h2 class="chart-title">Top 5 Customers</h2>
+			<div id="table" class="table-editable">
+			<table class="table table-bordered table-responsive-md table-striped text-center" id="table1">
+			<thead>
+			<tr>
+				<th>Name</th>
+				<th>Phone No.</th>
+				<th>Email</th>
+				<th>Edit</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for i in common_customers %}
+			<tr>
+			<td contenteditable="true">{{ i.name }}</td>
+            <td contenteditable="true">{{ i.phone }}</td>
+            <td contenteditable="true">{{ i.email }}</td>
+			<td>
+               <span class="table-remove"><button type="button"
+                  class="btn bg-danger-light btn-rounded btn-sm my-0"><a href="{% url 'customers' i.id %}" class="edit">Edit</a></button></span>
+            </td>
+				</tr>
+					{% endfor %}
+      </tbody>
+   </table>
+    <span class="table-remove"><button type="button"
+                  class="btn bg-danger-light btn-rounded btn-sm my-0"><a href="{% url 'customert'%}" class="edit">See all Customers</a></button></span>
+</div>
+          </div>
+          <div class="charts-card">
+            <h2 class="chart-title">Top Products</h2>
+            <div id="table" class="table-editable">
+			<table class="table table-bordered table-responsive-md table-striped text-center" id="table1">
+			<thead>
+			<tr>
+				<th>Product ID</th>
+				<th>Name</th>
+				<th>Category</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for j in common_products %}
+			<tr>
+			<td contenteditable="true">{{ j.product_id }}</td>
+            <td contenteditable="true">{{ j.name }}</td>
+            <td contenteditable="true">{{ j.category }}</td>
+				</tr>
+					{% endfor %}
+      </tbody>
+   </table>
+    <span class="table-remove"><button type="button"
+                  class="btn bg-danger-light btn-rounded btn-sm my-0"><a href="{% url 'products'%}" class="edit">See all Products</a></button></span>
+</div>
+          </div>
+
+        </div>
+      </main>
+      <!-- End Main -->
+    </div>
+	<script text="type/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-3.2.2.min.js"></script>
+	<script text="type/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.2.2.min.js"></script>
+	<script text="type/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.2.2.min.js"></script>
+	<script text="type/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-api-3.2.2.min.js"></script>
+	<script text="type/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.2.2.min.js"></script>
+	<script text="type/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.2.2.min.js"></script>
+	{{script | safe}}
+	{{script1 | safe}}
+	{{script2 | safe}}
+	{{script3 | safe}}
+	</body>
+</html>
+ {% endblock content %}

@@ -1,0 +1,326 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CRM - {{customer.name}}{% endblock %}</title>
+	<style>
+		#table1 {
+		border-collapse: collapse; /* Collapse table borders */
+		width: 100%; /* Set table width to 100% */
+		}
+
+		#table1 th,
+		#table1 td {
+		padding: 8px; /* Add padding to th and td elements for column spacing */
+		border: 1px solid #fff; /* Add a white border around th and td elements */
+		text-align: left; /* Align text to the left within th and td elements */
+		}
+
+		#table1 th {
+		background-color: #f0f0f0; /* Add a light gray background color to th elements */
+		font-weight: bold; /* Make the text in th elements bold */
+		color: black;
+		}
+
+		/* Add border to the table itself */
+		#table1 {
+		border: 1px solid #fff; /* Add a white border around the table */
+		}
+		
+		#openPopupButton {
+			color: white;
+			background-color: rgb(49, 49, 49);
+			border-radius: 5px;
+			border: solid coral 2px;
+		}
+		#dcx {
+			background-color: rgb(49, 49, 49);
+			color: white;
+			border-radius: 5px;
+			border: solid coral 2px;
+		}
+		#uc {
+			color: white;
+			text-decoration: none;
+		}
+		#dc {
+			color: white;
+			text-decoration: none;
+		}
+		.main-cards {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			gap: 20px;
+			margin: 20px 0;
+		}
+		.ud {
+			color: black;
+			text-decoration: none;
+		}
+		.modal {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.modal-content {
+			background-color: white;
+			padding: 20px;
+			border-radius: 5px;
+		}
+		form {
+            border: 1px solid #fff;
+            background-color: #f0f0f0;
+            width: 300px; /* Adjust the width as needed */
+            padding: 20px;
+            font-weight: bold;
+			position: absolute;
+			left: 60%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+        }
+
+        /* Style for form input fields */
+        input[type="text"], 
+		input[type="email"],
+        input[type="tel"] { 
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }]
+		
+
+        /* Style for the submit button */
+        input[type="submit"] {
+            background-color: #666;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Style for the submit button on hover */
+        input[type="submit"]:hover {
+            background-color: #444;
+        }
+		.close {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			color: black;
+			font-size: 20px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="grid-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+        </div>
+		{% if user.is_authenticated %}
+		<div class="header-right">
+          <span class="material-icons-outlined">login</span> Hello, {{request.user}}
+          <span class="material-icons-outlined">app_registration</span> Logout
+        </div>
+		{% else %}
+        <div class="header-right">
+          <a href="{% url 'login' %}"><span class="material-icons-outlined">login</span> Login</a>
+          <a href="{% url 'register' %}"><span class="material-icons-outlined">app_registration</span> Sign Up</a>
+          <a href="{% url 'guest' %}"><span class="material-icons-outlined">transcribe</span> Guest</a>
+        </div>
+		{% endif %}
+      </header>
+      <!-- End Header -->
+
+     <!-- Sidebar -->
+     <aside id="sidebar">
+        <div class="sidebar-title">
+          <div class="sidebar-brand">
+            <img src="{% static 'images/logocrm1.png' %}"> Pikocrm
+          </div>
+        </div>
+        <ul class="sidebar-list">
+          <li class="sidebar-list-item">
+            <a href="{% url 'dashboard' %}">
+              <span class="material-icons-outlined">dashboard_customize</span> Dashboard
+            </a>
+          </li>
+		  <h3>GENERAL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'products' %}">
+              <span class="material-icons-outlined">inventory_2</span> Inventory
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'customert' %}">
+              <span class="material-icons-outlined">people</span> Customers
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'pikosheets' %}">
+              <span class="material-icons-outlined">table_rows</span> Pikosheets
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'todo' %}">
+              <span class="material-icons-outlined">list_alt</span> Todo Lists
+            </a>
+          </li>
+		  <h3>RETAIL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'barcode' %}">
+              <span class="material-icons-outlined">qr_code</span> Barcode
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'invoice' %}">
+              <span class="material-icons-outlined">category</span> Invoicing
+            </a>
+          </li>
+          <h3>ONLINE</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'orderstatus' %}">
+              <span class="material-icons-outlined">inventory_2</span> Order Status
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'support' %}">
+              <span class="material-icons-outlined">support_agent</span> Support
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <!-- End Sidebar -->
+	 
+	  <!--main-->
+	<main class="main-container">
+        <div class="main-title">
+          <h2>EDIT {{customer.name}}</h2>
+        </div>
+	<div class="main-cards">
+	<div class="card">
+            <div class="card-inner">
+              <h3>{{customer.name}}</h3>
+              <span class="material-icons-outlined">inventory_2</span>
+            </div>
+            <button  id="openPopupButton">Update Customer</button>
+			<button id="dcx"><a href="{% url 'deletecustomer' customer.pk %}" id="dc">Delete Customer</a></button>
+          </div>
+	<div id="popupContainer" class="modal">
+	<div class="modal-content">
+		<form method="POST" action="{% url 'updatecustomer' item.id %}" id="popupForm">
+		<span id="closePopupButton" class="close">&times;</span>
+		<h2>UPDATE CUSTOMER</h2>
+        {% csrf_token %}
+        <label for="newname">Name</label>
+        <input type="text" placeholder="Enter New Name" id="newname" name="newname" size="26" required>
+        <br>
+        <label for="newemail">Email</label>
+        <input type="email" placeholder="Enter New Email" id="newemail" name="newemail" size="26" required>
+        <br>
+        <label for="Phoneno">PhoneNo.</label>
+        <input type="tel" placeholder="Enter New Phone Number" minlenght="10" maxlength="10" id="Phoneno" name="newphoneno" size="18" required>
+        <br>
+        <input type="submit" id="submit">
+		</form>
+	</div>
+	</div>
+    <div class="card">
+            <div class="card-inner">
+              <h3>Contact Information</h3>
+              <span class="material-icons-outlined">groups</span>
+            </div>
+            <hr>
+			<p>Name: {{customer.name}}</p>
+			<p>Email: {{customer.email}} </p>
+			<p>Phone: {{customer.phone}}</p>
+          </div>
+
+          <div class="card">
+            <div class="card-inner">
+              <h3>Total Orders</h3>
+              <span class="material-icons-outlined">notification_important</span>
+            </div>
+			<p>{{ orders_count }}</p>
+          </div>
+		  
+        </div>
+
+	<div id="table" class="table-editable">
+	<table class="table table-bordered table-responsive-md table-striped text-center" id="table1">
+	<thead>
+				<tr>
+					<th>Product</th>
+					<th>Category</th>
+					<th>Date Ordered</th>
+					<th>Status</th>
+					<th>Update</th>
+					<th>Remove</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for l in order %}
+				<tr>
+				<td>{{ l.product }}</td>
+				<td>{{l.product.category}}</td>
+				<td>{{l.date_created}}</td>
+				<td>{{l.status}}</td>
+				<td>
+				<span class="table-remove">
+				<button type="button" class="btn bg-danger-light btn-rounded btn-sm my-0">
+				<a href="{% url 'updateorder' l.id %}" class="ud">Update</a></button></span></td>
+				<td><span class="table-remove"><button type="button" class="btn bg-danger-light btn-rounded btn-sm my-0"><a href= "{% url 'deleteorder' l.id %}" class="ud">Remove</a></button></span></td>
+				</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+			</div>
+			</main>
+			</div>
+			 <script>
+				document.addEventListener("DOMContentLoaded", function() {
+				// Get references to the popup elements
+				const openPopupButton = document.getElementById("openPopupButton");
+				const closePopupButton = document.getElementById("closePopupButton");
+				const popupContainer = document.getElementById("popupContainer");
+
+				// Function to open the popup
+				function openPopup() {
+				popupContainer.style.display = "block";
+				}
+
+				// Function to close the popup
+				function closePopup() {
+				popupContainer.style.display = "none";
+				}
+
+				// Event listeners
+				openPopupButton.addEventListener("click", openPopup);
+				closePopupButton.addEventListener("click", closePopup);
+
+			});
+			</script>
+</body>
+</html>
+{% endblock %}

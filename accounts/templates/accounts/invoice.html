@@ -1,0 +1,303 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CRM - Invoicing{% endblock %}</title>
+    <style>
+	.wrapper{
+		height: 250px;
+		width: 400px;
+		border-radius: 7px;
+		background: #00FF7F;
+		margin-left: 360px;
+		margin-top: -20px;
+		transition: height 0.2s ease;
+		box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+		text-decoration: none;
+		color: black;
+	}
+	#reader{
+		height: 210px;
+		cursor: pointer;
+		user-select: none;
+		text-align: center;
+		border-radius: 7px;
+		background: #fff;
+		transition: height 0.2s ease;
+		text-decoration: none;
+		color: black;
+	}
+	.card{
+			background-color: #fff;
+			padding: 50px 50px 50px 50px;
+			margin:50px;
+		}
+		#ucx {
+		background: #FF69B4;
+		color: white;
+		border: none;
+		padding: 10px;
+		display: inline-block;
+		margin-bottom: 10px;
+		cursor: pointer;
+		}
+		#uc {
+		text-decoration: none;
+		color: white;
+		}
+		input, select{
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		box-sizing: border-box;
+	}
+	.invoice {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+			color: black;
+        }
+
+        .invoice h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .invoice p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+     <div class="grid-container">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+        </div>
+		{% if user.is_authenticated %}
+		<div class="header-right">
+          <span class="material-icons-outlined">login</span> Hello, {{request.user}}
+          <span class="material-icons-outlined">app_registration</span> Logout
+        </div>
+		{% else %}
+        <div class="header-right">
+          <a href="{% url 'login' %}"><span class="material-icons-outlined">login</span> Login</a>
+          <a href="{% url 'register' %}"><span class="material-icons-outlined">app_registration</span> Sign Up</a>
+          <a href="{% url 'guest' %}"><span class="material-icons-outlined">transcribe</span> Guest</a>
+        </div>
+		{% endif %}
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+     <aside id="sidebar">
+        <div class="sidebar-title">
+          <div class="sidebar-brand">
+            <img src="{% static 'images/logocrm1.png' %}"> Pikocrm
+          </div>
+        </div>
+        <ul class="sidebar-list">
+          <li class="sidebar-list-item">
+            <a href="{% url 'dashboard' %}">
+              <span class="material-icons-outlined">dashboard_customize</span> Dashboard
+            </a>
+          </li>
+		  <h3>GENERAL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'products' %}">
+              <span class="material-icons-outlined">inventory_2</span> Inventory
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'customert' %}">
+              <span class="material-icons-outlined">people</span> Customers
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'pikosheets' %}">
+              <span class="material-icons-outlined">table_rows</span> Pikosheets
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'todo' %}">
+              <span class="material-icons-outlined">list_alt</span> Todo Lists
+            </a>
+          </li>
+		  <h3>RETAIL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'barcode' %}">
+              <span class="material-icons-outlined">qr_code</span> Barcode
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'invoice' %}">
+              <span class="material-icons-outlined">category</span> Invoicing
+            </a>
+          </li>
+          <h3>ONLINE</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'orderstatus' %}">
+              <span class="material-icons-outlined">inventory_2</span> Order Status
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'support' %}">
+              <span class="material-icons-outlined">support_agent</span> Support
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <!-- End Sidebar -->
+
+      <!-- Main -->
+      <main class="main-container">
+        <div class="main-title">
+          <h2>INVOICING</h2>
+        </div>
+                        <div class="icon-area">
+                            <span class="material-symbols-outlined">barcode_reader</span>
+                        </div>
+<!-- QR SCANNER CODE BELOW  -->
+<div class="row">
+  <div class="wrapper">
+    <div id="reader"></div>
+  </div>
+</div>
+<form method="post">
+    {% csrf_token %}
+	{{ form }}
+	<span class="material-symbols-outlined">payments</span>
+	<div class="col-md">
+				<div class="card card-body">
+					 <div class="text-center"> 
+					<h3>Download Invoice directly to PDF</h3>
+	<button id="ucx" type="submit">Download Invoice</a></button>
+	</div>
+				</div>
+			</div>
+</form>
+<div class="row">
+			<div class="col-md"></div>
+
+		
+			<div class="invoice">
+        <h2>Invoice</h2>
+        <p>Customer Name: <span id="customerName"></span></p>
+        <p>City: <span id="cityo"></span></p>
+        <p>Product Name: <span id="productName"></span></p>
+    </div>
+
+			<div class="col-md"></div>
+		</div>
+	</div>
+		</main>
+		</div>
+		<script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+		<script>
+		var selectElement = document.getElementById('id_product_name');
+		var productMap = {
+    101: 'HP Pavilion Laptop',
+    102: 'Samsung Galaxy Smartphone',
+    103: 'Cuisinart Coffee Maker',
+    104: 'Nike Running Shoes',
+    105: 'Adidas T-shirt',
+    106: 'North Face Backpack',
+    107: 'Sony Noise-Canceling Headphones',
+    108: 'KitchenAid Blender',
+    109: 'Wilson Tennis Racket',
+    110: "Levi's Jeans",
+    111: 'Dell XPS Laptop',
+    112: 'iPhone 13 Pro Smartphone',
+    113: 'Keurig Coffee Maker',
+    114: 'New Balance Running Shoes',
+    115: 'Polo Ralph Lauren T-shirt',
+    116: 'Osprey Hiking Backpack',
+    117: 'Bose Wireless Headphones',
+    118: 'Vitamix Blender',
+    119: 'Babolat Tennis Racket',
+    120: 'Wrangler Jeans',
+    121: 'ASUS ROG Gaming Laptop',
+    122: 'Google Pixel Smartphone',
+    123: 'Hamilton Beach Coffee Maker',
+    124: 'Under Armour Running Shoes',
+    125: 'Calvin Klein T-shirt',
+    126: 'Patagonia Backpack',
+    127: 'Sennheiser Headphones',
+    128: 'Ninja Blender',
+    129: 'Yonex Tennis Racket',
+    130: "Tommy Hilfiger Jeans",
+    131: 'Acer Aspire Laptop',
+    132: 'OnePlus Nord Smartphone',
+    133: 'Breville Coffee Maker',
+    134: 'Brooks Running Shoes',
+    135: 'Nike Dri-FIT T-shirt',
+    136: 'Jansport Backpack',
+    137: 'JBL Wireless Headphones',
+    138: 'NutriBullet Blender',
+    139: 'Wilson Pro Tennis Racket',
+    140: "Levi's Slim Fit Jeans",
+    141: 'Microsoft Surface Laptop',
+    142: 'Google Pixel 6 Smartphone',
+    143: 'Ninja Coffee Maker',
+    144: 'New Balance Trail Shoes',
+    145: 'Adidas Running Tights',
+    146: 'Columbia Hiking Backpack',
+    147: 'Beats Studio Headphones',
+    148: 'KitchenAid Stand Mixer',
+    149: 'Babolat Pure Drive Racket',
+    150: 'Wrangler Classic Jeans',
+    151: 'ASUS ZenBook Laptop',
+    152: 'iPhone 14 Pro Smartphone',
+    153: 'Hamilton Beach Toaster',
+    154: 'Salomon Hiking Shoes',
+    155: 'Under Armour Compression Shirt',
+    156: 'Herschel Supply Co. Backpack',
+    157: 'Sony WH-1000XM4 Headphones',
+    158: 'Vitamix Professional Blender',
+    159: 'Yonex EZONE Tennis Racket',
+    160: 'Calvin Klein Slim Fit Jeans',
+    161: 'Sony Playstation 5 Gaming Console'
+};
+		// When scan is successful fucntion will produce data
+		function onScanSuccess(qrCodeMessage) {
+			var productId = qrCodeMessage; 
+			var productName = productMap[productId];
+			for (var i = 0; i < selectElement.options.length; i++) {
+			var option = selectElement.options[i];
+			if (option.text === productName) {
+				option.selected = true;
+				 break;
+			}
+		}
+		}
+		// When scan is unsuccessful fucntion will produce error message
+		function onScanError(errorMessage) {
+		// Handle Scan Error
+		}
+
+		// Setting up Qr Scanner properties
+		var html5QrCodeScanner = new Html5QrcodeScanner("reader", {
+		fps: 10,
+		qrbox: 250
+		});
+
+		// in
+		html5QrCodeScanner.render(onScanSuccess, onScanError);
+		</script>
+    </body>
+</html>
+{% endblock content %}

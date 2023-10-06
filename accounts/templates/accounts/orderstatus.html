@@ -1,0 +1,200 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CRM - Orders{% endblock %}</title>
+    <style>
+	#table1 {
+	border-collapse: collapse; /* Collapse table borders */
+	width: 100%; /* Set table width to 100% */
+	}
+
+	#table1 th,
+	#table1 td {
+	padding: 8px; /* Add padding to th and td elements for column spacing */
+	border: 1px solid #fff; /* Add a white border around th and td elements */
+	text-align: left; /* Align text to the left within th and td elements */
+	}
+
+	#table1 th {
+	color: black;
+	background-color: #f0f0f0; /* Add a light gray background color to th elements */
+	font-weight: bold; /* Make the text in th elements bold */
+	}
+
+/* Add border to the table itself */
+	#table1 {
+	border: 1px solid #fff; /* Add a white border around the table */
+	}
+	.ud {
+		color: black;
+		text-decoration: none;
+	}
+	input, select{
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		box-sizing: border-box;
+	}
+	#createo{
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		box-sizing: border-box;
+	}
+    </style>
+</head>
+<body>
+     <div class="grid-container">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+        </div>
+		{% if user.is_authenticated %}
+		<div class="header-right">
+          <span class="material-icons-outlined">login</span> Hello, {{request.user}}
+          <span class="material-icons-outlined">app_registration</span> Logout
+        </div>
+		{% else %}
+        <div class="header-right">
+          <a href="{% url 'login' %}"><span class="material-icons-outlined">login</span> Login</a>
+          <a href="{% url 'register' %}"><span class="material-icons-outlined">app_registration</span> Sign Up</a>
+          <a href="{% url 'guest' %}"><span class="material-icons-outlined">transcribe</span> Guest</a>
+        </div>
+		{% endif %}
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+     <aside id="sidebar">
+        <div class="sidebar-title">
+          <div class="sidebar-brand">
+            <img src="{% static 'images/logocrm1.png' %}"> Pikocrm
+          </div>
+        </div>
+        <ul class="sidebar-list">
+          <li class="sidebar-list-item">
+            <a href="{% url 'dashboard' %}">
+              <span class="material-icons-outlined">dashboard_customize</span> Dashboard
+            </a>
+          </li>
+		  <h3>GENERAL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'products' %}">
+              <span class="material-icons-outlined">inventory_2</span> Inventory
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'customert' %}">
+              <span class="material-icons-outlined">people</span> Customers
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'pikosheets' %}">
+              <span class="material-icons-outlined">table_rows</span> Pikosheets
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'todo' %}">
+              <span class="material-icons-outlined">list_alt</span> Todo Lists
+            </a>
+          </li>
+		  <h3>RETAIL</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'barcode' %}">
+              <span class="material-icons-outlined">qr_code</span> Barcode
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'invoice' %}">
+              <span class="material-icons-outlined">category</span> Invoicing
+            </a>
+          </li>
+          <h3>ONLINE</h3>
+          <li class="sidebar-list-item">
+            <a href="{% url 'orderstatus' %}">
+              <span class="material-icons-outlined">inventory_2</span> Order Status
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="{% url 'support' %}">
+              <span class="material-icons-outlined">support_agent</span> Support
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <!-- End Sidebar -->
+
+      <!-- Main -->
+      <main class="main-container">
+	  <div class="main-title">
+          <h2>CREATE ORDER</h2>
+        </div>
+	  <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <input class="btn btn-info" type="submit" value="Create Order" id="createo">
+        <br>
+    </form>
+	 <div class="main-title">
+          <h2>SEARCH ORDER</h2>
+        </div>
+	<form method="get">
+	{{ myFilter.form }}
+	<input class="btn btn-info" type="submit" value="Search Order" id="createo">
+	</form>
+	<div class="main-title">
+          <h2>ORDERS STATUS</h2>
+        </div>
+		<div id="table" class="table-editable">
+   <table class="table table-bordered table-responsive-md table-striped text-center" id="table1">
+      <thead>
+         <tr>
+			<th>Product Name</th>
+            <th>Date Ordered</th>
+			<th>City</th>
+            <th>Status</th>
+			<th>Update</th>
+			<th>Remove</th>
+         </tr>
+      </thead>
+      <tbody>
+	  {% for k in orders %}
+	    <tr>
+			<td contenteditable="true">{{ k.product }}</td>
+            <td contenteditable="true">{{ k.date_created }}</td>
+			<td contenteditable="true">{{ k.city }}</td>
+            <td contenteditable="true">{{ k.status }}</td>
+			<td>
+				<span class="table-remove">
+					<button type="button" class="btn bg-danger-light btn-rounded btn-sm my-0">
+						<a href="{% url 'updateorder' k.id %}" class="ud">Update</a>
+					</button>
+				</span>
+			</td> 
+			<td>
+				<span class="table-remove">
+					<button type="button" class="btn bg-danger-light btn-rounded btn-sm my-0">
+						<a href= "{% url 'deleteorder' k.id %}" class="ud">Remove</a>
+					</button>
+				</span>
+			</td>
+		</tr>
+					{% endfor %}
+      </tbody>
+   </table>
+		</main>
+		</div>
+    </body>
+</html>
+{% endblock content %}
